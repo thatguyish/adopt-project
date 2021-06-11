@@ -5,7 +5,7 @@ from wtforms.validators import URL,Optional,NumberRange,Required
 class PetForm(FlaskForm):
     """A form representing a pet"""
 
-    name = StringField('Pet Name',validators=[Required()])
+    name = StringField('Pet Name')
 
     species = SelectField('Pet Species',choices=[('cat','Cat'),('dog','Dog'),('porcupine','Porcupine')])
 

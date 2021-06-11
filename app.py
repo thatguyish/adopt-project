@@ -25,6 +25,7 @@ def add_pet():
 
     form = PetForm()
     form.available.widget.input_type = 'hidden'
+    # petinfo = {k:v for k,v in form.data.items() if k!='csrf_token'}
     if form.validate_on_submit():
         name = form.name.data
         species = form.species.data
@@ -38,24 +39,14 @@ def add_pet():
         return render_template('add_pet.html',form=form)
 
 
-@app.route('/<pet_id>',methods=['POST','GET'])
+@app.route('/<int:pet_id>',methods=['POST','GET'])
 def pet_display(pet_id):
     """display pet information and allows you to edit it"""
 
     pet = Pet.query.get(pet_id)
     form = PetForm(obj=pet)
     form.available.widget.input_type = 'checkbox'
-
-    petinfo = dict()
-    for val in form:
-        if val.data:
-            name = val.name
-            data = val.data
-            petinfo[name]=data
-    
-    for (k,v) in petinfo.items():
-        print(k,v)
-
+    form.species.data = 'cat'
     if form.validate_on_submit():
         photo_url = form.photo_url.data
         notes = form.notes.data
@@ -68,4 +59,6 @@ def pet_display(pet_id):
         return redirect(f'/{pet_id}')
     else:
         return render_template('pet_display.html',pet=pet,form=form)
+    
+    
 
