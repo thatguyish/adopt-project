@@ -1,0 +1,56 @@
+{%extends 'base.html'%}
+{%block content%}
+
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-10">
+            <div class="card mb-2">
+                <img src="{{pet.photo_url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{pet.name}} <br>Age: {{pet.age}}</h5>
+                    <p class="card-text fw-bold">
+                        {%if pet.available%}
+                        Available
+                        {%else%}
+                        Not Available Sorry
+                        {%endif%}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <form action="/{{pet.id}}" method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{form.photo_url.label}}
+                    {{form.photo_url(class_='form-control col-sm-2')}}
+                    {%for error in form.photo_url.errors%}
+                    <small class="form-text text-danger">
+                        {{error}}
+                    </small>
+                    {%endfor%}
+                    {{form.notes.label}}
+                    {{form.notes(class_='form-control col-sm-2')}}
+                    {%for error in form.notes.errors%}
+                    <small class="form-text text-danger">
+                        {{error}}
+                    </small>
+                    {%endfor%}
+                    {{form.available.label}}
+                    {{form.available(class_='col-sm-2')}}
+                    {%for error in form.available.errors%}
+                    <small class="form-text text-danger">
+                        {{error}}
+                    </small>
+                    {%endfor%}
+                </div>
+                <button class="btn btn-primary mt-2" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}
